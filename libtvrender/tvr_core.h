@@ -53,7 +53,7 @@ enum
 enum
 {
 	/* Surface colour (Albedo) */
-	TVR_PASS_ALBEDO = 0,
+	TVR_PASS_ALBEDO = 0
 };
 
 #ifdef __cplusplus
