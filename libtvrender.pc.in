@@ -1,0 +1,9 @@
+libdir=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_LIBDIR@
+includedir=@CMAKE_INSTALL_PREFIX@/include/libtvrender
+
+Name: libtvrender
+Description: Interface library for TVrender
+Version: @PROJECT_VERSION@
+Libs: -L${libdir} -ltvrender
+Cflags: -I${includedir}
+

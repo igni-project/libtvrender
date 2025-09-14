@@ -30,6 +30,9 @@ target_include_directories(
 include(CPack)
 include(GNUInstallDirs)
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libtvrender.pc.in ${CMAKE_CURRENT_BINARY_DIR}/libtvrender.pc @ONLY)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libtvrender.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+
 install(TARGETS tvrender)
 
 
