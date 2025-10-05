@@ -1,7 +1,7 @@
 #ifndef _LIBTVRENDER_TVR_CORE_H
 #define _LIBTVRENDER_TVR_CORE_H 1
 
-#define TVRENDER_VERSION 0
+#define TVRENDER_VERSION 1
 
 #include <stdint.h>
 
@@ -23,8 +23,6 @@ enum
 	/* MESH requests */
 
 	TVR_OPCODE_MESH_CREATE,
-	TVR_OPCODE_MESH_BIND_VERTEX_BUFFER,
-	TVR_OPCODE_MESH_BIND_INDEX_BUFFER,
 	TVR_OPCODE_MESH_BIND_MAT,
 	TVR_OPCODE_MESH_SET_LOC,
 	TVR_OPCODE_MESH_SET_ROT,
@@ -95,19 +93,9 @@ int tvr_destroy_index_buf(
 
 int tvr_create_mesh(
 	int fd,
-	int32_t mesh_id
-);
-
-int tvr_mesh_bind_vert_buf(
-	int fd,
 	int32_t mesh_id,
-	int32_t vb_id
-);
-
-int tvr_mesh_bind_index_buf(
-	int fd,
-	int32_t mesh_id,
-	int32_t ib_id
+	int32_t mesh_vb_id,
+	int32_t mesh_ib_id
 );
 
 int tvr_mesh_bind_mat(

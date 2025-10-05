@@ -21,7 +21,7 @@ int tvr_open()
 	struct sockaddr_un tmp_addr;
 
 	const int opcode = TVR_OPCODE_SET_VERSION;
-	const int version = 0;
+	const int version = TVRENDER_VERSION;
 
 	/* ------------------- */
 
@@ -35,11 +35,11 @@ int tvr_open()
 
 	path = getenv("TVR_DISPLAY");
 
-    if (!path)
+	if (!path)
 	{
-        printf("Could not find environment var 'TVR_DISPLAY'.\n");
-        return -1;
-    }
+		printf("Could not find environment var 'TVR_DISPLAY'.\n");
+		return -1;
+	}
 
 
 	tmp_addr.sun_family = AF_UNIX;
@@ -57,7 +57,7 @@ int tvr_open()
 	{
 		return -1;
 	}
-	/* P2: Version ID (0) */
+	/* P2: Version ID (1) */
 	if (send(fd, &version, 4, 0) == -1)
 	{
 		return -1;
@@ -184,7 +184,9 @@ int tvr_destroy_index_buf(
 
 int tvr_create_mesh(
 	int fd,
-	int32_t mesh_id
+	int32_t mesh_id,
+	int32_t mesh_vb_id,
+	int32_t mesh_ib_id
 )
 {
 	const int opcode = TVR_OPCODE_MESH_CREATE;
@@ -199,54 +201,12 @@ int tvr_create_mesh(
 		return -1;
 	}
 
-	return 0;
-}
-
-int tvr_mesh_bind_vert_buf(
-	int fd,
-	int32_t mesh_id,
-	int32_t vb_id
-)
-{
-	const int opcode = TVR_OPCODE_MESH_BIND_VERTEX_BUFFER;
-	
-	if (send(fd, &opcode, 2, 0) == -1)
+	if (send(fd, &mesh_vb_id, 4, 0) == -1)
 	{
 		return -1;
 	}
 
-	if (send(fd, &mesh_id, 4, 0) == -1)
-	{
-		return -1;
-	}
-
-	if (send(fd, &vb_id, 4, 0) == -1)
-	{
-		return -1;
-	}
-
-	return 0;
-}
-
-int tvr_mesh_bind_index_buf(
-	int fd,
-	int32_t mesh_id,
-	int32_t ib_id
-)
-{
-	const int opcode = TVR_OPCODE_MESH_BIND_INDEX_BUFFER;
-
-	if (send(fd, &opcode, 2, 0) == -1)
-	{
-		return -1;
-	}
-
-	if (send(fd, &mesh_id, 4, 0) == -1)
-	{
-		return -1;
-	}
-
-	if (send(fd, &ib_id, 4, 0) == -1)
+	if (send(fd, &mesh_ib_id, 4, 0) == -1)
 	{
 		return -1;
 	}
