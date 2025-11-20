@@ -23,6 +23,9 @@ int tvr_open()
 	const int opcode = TVR_OPCODE_SET_VERSION;
 	const int version = TVRENDER_VERSION;
 
+	/* Socket options */
+	int so;
+
 	/* ------------------- */
 
 	/* Create socket */
@@ -41,7 +44,6 @@ int tvr_open()
 		return -1;
 	}
 
-
 	tmp_addr.sun_family = AF_UNIX;
 	strncpy(tmp_addr.sun_path, path, sizeof(tmp_addr.sun_path));
 
@@ -57,7 +59,8 @@ int tvr_open()
 	{
 		return -1;
 	}
-	/* P2: Version ID (1) */
+
+	/* P2: Version ID */
 	if (send(fd, &version, 4, 0) == -1)
 	{
 		return -1;
@@ -239,6 +242,39 @@ int tvr_mesh_bind_mat(
 
 	return 0;
 }
+
+int tvr_mesh_bind_texture(
+	int fd,
+	int32_t mesh_id,
+	int32_t texture_id,
+	int8_t pass
+)
+{
+	const int opcode = TVR_OPCODE_MESH_BIND_TEXTURE;
+
+	if (send(fd, &opcode, 2, 0) == -1)
+	{
+		return -1;
+	}
+
+	if (send(fd, &mesh_id, 4, 0) == -1)
+	{
+		return -1;
+	}
+
+	if (send(fd, &texture_id, 4, 0) == -1)
+	{
+		return -1;
+	}
+
+	if (send(fd, &pass, 1, 0) == -1)
+	{
+		return -1;
+	}
+
+	return 0;
+}
+
 
 int tvr_mesh_set_loc(
 	int fd,
@@ -560,6 +596,38 @@ int tvr_pov_set_rot(
 )
 {
 	const int opcode = TVR_OPCODE_POV_SET_ROT;
+
+	if (send(fd, &opcode, 2, 0) == -1)
+	{
+		return -1;
+	}
+
+	if (send(fd, &x, 4, 0) == -1)
+	{
+		return -1;
+	}
+
+	if (send(fd, &y, 4, 0) == -1)
+	{
+		return -1;
+	}
+
+	if (send(fd, &z, 4, 0) == -1)
+	{
+		return -1;
+	}
+
+	return 0;
+}
+
+int tvr_pov_look_at(
+	int fd,
+	float x,
+	float y,
+	float z
+)
+{
+	const int opcode = TVR_OPCODE_POV_LOOK_AT;
 
 	if (send(fd, &opcode, 2, 0) == -1)
 	{

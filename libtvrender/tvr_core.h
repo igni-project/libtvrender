@@ -1,7 +1,7 @@
 #ifndef _LIBTVRENDER_TVR_CORE_H
 #define _LIBTVRENDER_TVR_CORE_H 1
 
-#define TVRENDER_VERSION 1
+#define TVRENDER_VERSION 2
 
 #include <stdint.h>
 
@@ -24,6 +24,7 @@ enum
 
 	TVR_OPCODE_MESH_CREATE,
 	TVR_OPCODE_MESH_BIND_MAT,
+	TVR_OPCODE_MESH_BIND_TEXTURE,
 	TVR_OPCODE_MESH_SET_LOC,
 	TVR_OPCODE_MESH_SET_ROT,
 	TVR_OPCODE_MESH_SET_SCALE,
@@ -44,6 +45,7 @@ enum
 
 	TVR_OPCODE_POV_SET_LOC,
 	TVR_OPCODE_POV_SET_ROT,
+	TVR_OPCODE_POV_LOOK_AT,
 	TVR_OPCODE_POV_SET_FOV
 };
 
@@ -102,6 +104,13 @@ int tvr_mesh_bind_mat(
 	int fd,
 	int32_t mesh_id,
 	int32_t mat_id
+);
+
+int tvr_mesh_bind_texture(
+	int fd,
+	int32_t mesh_id,
+	int32_t texture_id,
+	int8_t pass
 );
 
 int tvr_mesh_set_loc(
@@ -178,6 +187,13 @@ int tvr_pov_set_loc(
 );
 
 int tvr_pov_set_rot(
+	int fd,
+	float x,
+	float y,
+	float z
+);
+
+int tvr_pov_look_at(
 	int fd,
 	float x,
 	float y,
