@@ -6,13 +6,16 @@
 #include <sys/un.h> /* sockaddr_un */
 #include <unistd.h> /* sleep */
 #include <stdlib.h> /* getenv */
+#include <limits.h> /* PATH_MAX */
+
+constexpr const char display_path_igni[] = "/display";
 
 int tvr_open()
 {
 	/* TVrender display socket */
 
 	/* Socket path */
-	const char *path;
+	char path[PATH_MAX] = {0};
 
 	/* Socket descriptor */
 	int fd;
@@ -36,11 +39,21 @@ int tvr_open()
 		return -1;
 	}
 
-	path = getenv("TVR_DISPLAY");
+	strcpy(path, getenv("IGNI_SOCKETS"));
+
+	if (path)
+	{
+		strcat(path, display_path_igni);
+	}
 
 	if (!path)
 	{
-		printf("Could not find environment var 'TVR_DISPLAY'.\n");
+		strcpy(path, getenv("TVR_DISPLAY"));
+	}
+
+	if (!path)
+	{
+		printf("Could not find env var 'IGNI_SOCKETS' or 'TVR_DISPLAY'.\n");
 		return -1;
 	}
 
