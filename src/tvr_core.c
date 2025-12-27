@@ -16,6 +16,7 @@ int tvr_open()
 
 	/* Socket path */
 	char path[PATH_MAX] = {0};
+	char *path_part = 0;
 
 	/* Socket descriptor */
 	int fd;
@@ -39,19 +40,21 @@ int tvr_open()
 		return -1;
 	}
 
-	strcpy(path, getenv("IGNI_SOCKETS"));
+	path_part = getenv("IGNI_SOCKETS");
 
-	if (path)
+	if (path_part)
 	{
+		strcpy(path, path_part);
 		strcat(path, display_path_igni);
 	}
 
-	if (!path)
+	if (!path_part)
 	{
-		strcpy(path, getenv("TVR_DISPLAY"));
+		path_part = getenv("TVR_DISPLAY");
+		strcpy(path, path_part);
 	}
 
-	if (!path)
+	if (!path_part)
 	{
 		printf("Could not find env var 'IGNI_SOCKETS' or 'TVR_DISPLAY'.\n");
 		return -1;
