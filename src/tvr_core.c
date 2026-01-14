@@ -8,7 +8,7 @@
 #include <stdlib.h> /* getenv */
 #include <limits.h> /* PATH_MAX */
 
-constexpr const char display_path_igni[] = "/display";
+const char display_path_igni[] = "/display";
 
 int tvr_open()
 {

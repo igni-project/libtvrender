@@ -1,5 +1,8 @@
 # Changelog
 
+v0.3.2
++ Fix compiler error
+
 v0.3.1:
 + Fix environment variable checking mechanism
 
